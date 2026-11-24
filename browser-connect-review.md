@@ -1,0 +1,25 @@
+# Browser Connect — developer pilot review and setup
+Version 0.5.0, protocol 2.0, November 24, 2026. Requires Chrome 125+ (tested Chrome 156) and the matching BrowserSkill daemon. No ChatGPT account, Aimino account, hosted gateway or production credentials are provided or required for this developer pilot. This version is not the planned consumer ChatGPT connector.
+
+## Get the compatible companion
+The code is the MIT-licensed upstream Tencent BrowserSkill at [the exact public source pin](https://github.com/Tencent/BrowserSkill/tree/feb601ca9be5c3276660b2c28ea6d3c946567d1b). The ordinary published 0.5.0 CLI may have an older protocol and must not be substituted.
+
+For reviewers on Ubuntu 24.04 Linux x86-64: [download the matching review companion](https://github.com/Aimino-Tech/extension-privacy/releases/download/browser-connect-review-0.5.0/bsk-review-linux-x86_64.tar.gz). This unsigned, debug-symbol-removed build contains only upstream source code, its MIT license and checksums. Archive SHA-256: `39f57b0602f2d0c2975fdcff8192e534fc97d1ebb83ef3707cbcf86469a80c5c`. Extract in an empty directory and run `sha256sum -c SHA256SUMS` before use. Alternatively build from the exact public source with Rust stable: `git clone https://github.com/Tencent/BrowserSkill.git`, `cd BrowserSkill`, `git checkout feb601ca9be5c3276660b2c28ea6d3c946567d1b`, `cargo build --locked -p bsk`; binary is `target/debug/bsk` (Windows `.exe`). The supplied companion was tested on Linux only.
+
+## Review with synthetic data — no private service
+1. Install the Chrome Web Store review item in a clean browser profile. Close unrelated extensions and use no personal accounts or pages. Connection starts disabled. Read the consent notice and privacy link.
+2. From an empty test directory containing the extracted `bsk`, start a dedicated daemon in terminal A. Linux/macOS example (choose unused port):
+
+```sh
+mkdir -p "$PWD/review-state"
+export BSK_HOME="$PWD/review-state" BSK_AUTO_START=0 BSK_AUTO_UPDATE=off
+./bsk daemon start --mode server --listen 127.0.0.1 --port 52891 --public-url ws://127.0.0.1:52891/extension
+```
+
+3. In terminal B (same directory), set the same environment variables. Run `./bsk daemon pair`. Keep the one-use link private. In the extension popup enable connection, open Connection settings, select Remote connection, paste the link and save. Check the connected status and run `./bsk browsers --json` (one intended browser). This is remote pairing exercised over loopback, not an internet WSS deployment. For real non-loopback connections use trusted HTTPS/WSS and a user-controlled server per the [upstream remote guide](https://github.com/Tencent/BrowserSkill/blob/feb601ca9be5c3276660b2c28ea6d3c946567d1b/docs/remote-extension-connection.md). Do not disable TLS verification.
+4. In a third terminal serve a synthetic page: `mkdir -p demo; printf '<html><title>Review fixture</title><h1>Review fixture</h1><p>Invoice DEMO-001</p></html>' > demo/index.html; python3 -m http.server 52892 --bind 127.0.0.1 --directory demo`. No private data.
+5. In terminal B run `./bsk session start --browser BROWSER_ID --no-focus --json` with the browser ID from step 3. Use the returned SESSION_ID in `./bsk navigate http://127.0.0.1:52892/ --session SESSION_ID --json` and `./bsk read --session SESSION_ID --selector p --json`. Expect the exact fixture text `Invoice DEMO-001` in an agent-created tab. Do not borrow unrelated tabs. The extension's agent window and native task status make activity visible.
+6. Run `./bsk session stop SESSION_ID --json`. Verify the session is absent with `./bsk status --json`. In the popup press Disconnect browser. For revocation, run `./bsk daemon revoke --all` **only in the isolated review-state daemon**, verify no connected browsers; stop terminal A/C and delete only the test directory if desired. Never run revoke against another daemon.
+
+## Scope and limitations
+The browser agent uses Chrome debugger for user-directed web interaction. The underlying upstream build also supports explicitly selected debugging, recording, capture and tab borrowing. Remote mode prohibits native file upload/download commands. Local mode, if chosen instead, offers optional verification and should be paired; to require verification on a dedicated local daemon, use `bsk daemon trust-local off`. No claim of independent consumer task authority, public ChatGPT OAuth, unrestricted website access or externally hosted multi-tenant service is made. Review beta only. [Privacy](browser-connect-pilot.md). Support: info@aimino.de.

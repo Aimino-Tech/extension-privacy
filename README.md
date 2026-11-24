@@ -4,3 +4,5 @@ Public product-specific privacy documents only. Contact Aimino Tech GmbH at info
 - [Invoice Collector BETA — local version 0.1.0](invoice-collector.md)
 
 - [Browser Connect — developer pilot](browser-connect-pilot.md)
+
+- [Browser Connect — reviewer setup and compatible companion](browser-connect-review.md)
