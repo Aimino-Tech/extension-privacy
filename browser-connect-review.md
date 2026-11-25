@@ -7,7 +7,7 @@ The code is the MIT-licensed upstream Tencent BrowserSkill at [the exact public 
 For reviewers on Ubuntu 24.04 Linux x86-64: [download the matching review companion](https://github.com/Aimino-Tech/extension-privacy/releases/download/browser-connect-review-0.5.0/bsk-review-linux-x86_64.tar.gz). This unsigned, debug-symbol-removed build contains only upstream source code, its MIT license and checksums. Archive SHA-256: `39f57b0602f2d0c2975fdcff8192e534fc97d1ebb83ef3707cbcf86469a80c5c`. Extract in an empty directory and run `sha256sum -c SHA256SUMS` before use. Alternatively build from the exact public source with Rust stable: `git clone https://github.com/Tencent/BrowserSkill.git`, `cd BrowserSkill`, `git checkout feb601ca9be5c3276660b2c28ea6d3c946567d1b`, `cargo build --locked -p bsk`; binary is `target/debug/bsk` (Windows `.exe`). The supplied companion was tested on Linux only.
 
 ## Review with synthetic data — no private service
-1. Install the Chrome Web Store review item in a clean browser profile. Close unrelated extensions and use no personal accounts or pages. Connection starts disabled. Read the consent notice and privacy link.
+1. Install the Chrome Web Store review item in a clean browser profile. Close unrelated extensions and use no personal accounts or pages. Connection starts disabled. Before enabling it, review the Store listing's disclosure and the public privacy policy. In this candidate there is no separate in-product consent modal; the explicit connection toggle enables the selected daemon connection after the user has reviewed those disclosures.
 2. From an empty test directory containing the extracted `bsk`, start a dedicated daemon in terminal A. Linux/macOS example (choose unused port):
 
 ```sh
