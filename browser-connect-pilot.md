@@ -1,7 +1,7 @@
 # Aimino Browser Connect BETA — Privacy Notice
 
 **Effective:** 25 November 2026  
-**Applies to:** Chrome extension 0.5.2 (Manifest V3), protocol 2.0. This is a metadata/listing beta candidate based on the BrowserSkill 0.5.0 runtime at upstream commit [feb601ca9be5c3276660b2c28ea6d3c946567d1b](https://github.com/Tencent/BrowserSkill/tree/feb601ca9be5c3276660b2c28ea6d3c946567d1b), plus Aimino's pilot overlay. It is not the planned public ChatGPT connector.
+**Applies to:** Chrome extension 0.5.3 (Manifest V3), protocol 2.0. This is a metadata/listing beta candidate based on the BrowserSkill 0.5.0 runtime at upstream commit [feb601ca9be5c3276660b2c28ea6d3c946567d1b](https://github.com/Tencent/BrowserSkill/tree/feb601ca9be5c3276660b2c28ea6d3c946567d1b), plus Aimino's pilot overlay. It is not the planned public ChatGPT connector.
 
 **Publisher:** Aimino Tech GmbH, Germany  
 **Contact:** [info@aimino.de](mailto:info@aimino.de) · https://aimino.de/
