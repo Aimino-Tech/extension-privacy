@@ -10,7 +10,7 @@
 
 The extension connects Chrome to a BrowserSkill daemon or compatible gateway explicitly selected by the user. The selected agent can perform user-directed browser tasks in task-created tabs and in tabs the user explicitly lends or selects for a Quick Action. This includes reading and interacting with the selected pages. The extension is not read-only: an agent can navigate, click, type, interact with forms and change page state within its authorized browser task.
 
-Connection is disabled until the user enables it. The user chooses and pairs the endpoint. Aimino does not operate a required hosted gateway, account service or intermediary for this pilot.
+Connection is disabled until the user enables it. The user chooses and pairs the endpoint. Before connection can be enabled, the main popup displays a disclosure card summarizing page access, data sent to the selected daemon, optional debugging/recording and links to this notice and reviewer setup. The user then explicitly enables the connection. Aimino does not operate a required hosted gateway, account service or intermediary for this pilot.
 
 ## 2. Information the extension may process
 
